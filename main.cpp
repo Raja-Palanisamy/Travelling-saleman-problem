@@ -76,7 +76,10 @@ int main(int argc, char *argv[]){
 			if (x.length() >2){
 				Graph *g = parseEdges(path+ent->d_name);
 				g->makeEdges();
-				
+				cout << ent->d_name<<"\t";
+				cout<<g->getNumberOfNodes()<<"\t";
+				cout<<g->getNumberOfEdges()<<"\n";
+
 				// All algorithms should be called here
 
 			}
