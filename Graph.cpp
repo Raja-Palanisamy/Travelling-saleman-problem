@@ -96,7 +96,7 @@ int Graph::getNumberOfEdges() {
 void Graph::print() {
     cout << "Number of nodes: " << numberOfNodes << endl << endl;
     cout << "From\tTo\tWeight" << endl;
-    for (int n = 0; n <= numberOfNodes; n++) {
+    for (int n = 0; n < numberOfNodes; n++) {
         for (vector<Edge>::iterator it = adjList[n].begin(); it != adjList[n].end(); it++) {
             cout << it->from << "\t\t" << it->to << "\t" << it->weight << endl;
         }
