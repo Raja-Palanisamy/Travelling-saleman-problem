@@ -11,6 +11,7 @@
 #include <string>
 #include <ctime>
 #include <fstream>
+#include <dirent.h>
 
 #include "Graph.cpp"
 
@@ -27,46 +28,61 @@ Graph* parseEdges(string filename) {
     string type;
     string line;
     ifstream f (filename.c_str());
-    getline(f, line);
-    getline(f, line);
-    f >> line;
-    f >> numNodes;		// read num of nodes
-
-    getline(f, line);
-    f >> line;
-    f >> type;			// read coord type
-    getline(f, line);
-    getline(f, line);
-    getline(f, line);		// ignore all other lines
     if (f.is_open()) {
-        g = new Graph(numNodes, type);
-        
-        int counter = 0;
-        while ( counter < numNodes) {
-            float x, y;
+	getline(f, line);
+	getline(f, line);
+	f >> line;
+	f >> numNodes;		// read num of nodes
+
+	getline(f, line);
+	f >> line;
+	f >> type;			// read coord type
+	getline(f, line);
+	getline(f, line);
+	getline(f, line);		// ignore all other lines
+   
+	g = new Graph(numNodes, type);
+
+	int counter = 0;
+	while ( counter < numNodes) {
+	    float x, y;
 	    int node;
-            f >> node;             // read node
-            f >> x;                // read x-coord
-            f >> y;                // read y-coord
-            g->addNode(node, x, y);
-            
-            counter++;
-        }
-        f.close();
-        
+	    f >> node;             // read node
+	    f >> x;                // read x-coord
+	    f >> y;                // read y-coord
+	    g->addNode(node, x, y);
+	    
+	    counter++;
+	}
+	f.close();
+
     }
-    else
-        cout << "Could not open file \"" << filename << "\"" << endl;
-    
-    return g;
+	else
+		cout << "Could not open file \"" << filename << "\"" << endl;
+
+	return g;
 }
 
 int main(int argc, char *argv[]){
 
     	string path = "DATA/";
-	Graph *g = parseEdges(path+"berlin52.tsp");
-	g->makeEdges();
-	g->print();
+	DIR *dir;
+	struct dirent *ent;
+
+	if ((dir=opendir(path.c_str())) != NULL) {
+		while ((ent = readdir (dir)) != NULL) {
+			string x = ent->d_name;
+			if (x.length() >2){
+				Graph *g = parseEdges(path+ent->d_name);
+				g->makeEdges();
+				if (x=="berlin52.tsp")
+					g->print();
+				// All algorithms should be called here
+
+			}
+		}
+		closedir (dir);
+	}
 	return 0;
 }
 

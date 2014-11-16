@@ -47,7 +47,7 @@ void Graph::makeEdges() {
 		for (int n2 = n1+1; n2 < numberOfNodes; n2++) {
 			Node node2 = nodList[n2];
 			float dist = distance(node1.x,node1.y,node2.x,node2.y);
-			addEdge(n1+1,n2+1,dist);
+			addEdge(n1,n2,dist);
 		}
 	}
 }
@@ -96,7 +96,7 @@ int Graph::getNumberOfEdges() {
 void Graph::print() {
     cout << "Number of nodes: " << numberOfNodes << endl << endl;
     cout << "From\tTo\tWeight" << endl;
-    for (int n = 1; n <= numberOfNodes; n++) {
+    for (int n = 0; n <= numberOfNodes; n++) {
         for (vector<Edge>::iterator it = adjList[n].begin(); it != adjList[n].end(); it++) {
             cout << it->from << "\t\t" << it->to << "\t" << it->weight << endl;
         }
