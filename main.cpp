@@ -72,14 +72,17 @@ int main(int argc, char *argv[]){
 	// Reads all .tsp files and creates the graph object
 	if ((dir=opendir(path.c_str())) != NULL) {
 		while ((ent = readdir (dir)) != NULL) {
-			string x = ent->d_name;
-			if (x.length() >2){
-				Graph *g = parseEdges(path+ent->d_name);
+			string filename = ent->d_name;
+
+			if (filename.length() >2){
+				//ofstream outfile (filename.c_str())
+				Graph *g = parseEdges(path+filename);
 				g->makeEdges();
-				cout << ent->d_name<<"\t";
+				cout << filename<<"\t";
 				cout<<g->getNumberOfNodes()<<"\t";
 				cout<<g->getNumberOfEdges()<<"\n";
-
+				if (filename=="burma14.tsp")
+					g->print();
 				// All algorithms should be called here
 
 			}
